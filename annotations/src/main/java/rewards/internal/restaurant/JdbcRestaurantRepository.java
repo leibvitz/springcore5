@@ -7,9 +7,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.sql.DataSource;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.stereotype.Repository;
 
 import common.money.Percentage;
 
@@ -38,6 +42,7 @@ import common.money.Percentage;
  * this error in the next step."
  */
 
+@Repository
 public class JdbcRestaurantRepository implements RestaurantRepository {
 
 	private DataSource dataSource;
@@ -56,7 +61,6 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 * @param dataSource
 	 *            the data source
 	 */
-
 	public JdbcRestaurantRepository(DataSource dataSource) {
 		this.dataSource = dataSource;
 		this.populateRestaurantCache();
@@ -65,6 +69,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	public JdbcRestaurantRepository() {
 	}
 
+	@Autowired
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
 	}
@@ -88,7 +93,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 * Populating the cache is not really a valid construction activity, so using a
 	 * post-construct, rather than the constructor, is better practice.
 	 */
-
+	@PostConstruct
 	void populateRestaurantCache() {
 		restaurantCache = new HashMap<String, Restaurant>();
 		String sql = "select MERCHANT_NUMBER, NAME, BENEFIT_PERCENTAGE from T_RESTAURANT";
@@ -161,6 +166,7 @@ public class JdbcRestaurantRepository implements RestaurantRepository {
 	 * callback. Re-run the test and you should be able to see that this method is
 	 * now being called.
 	 */
+	@PreDestroy
 	public void clearRestaurantCache() {
 		restaurantCache.clear();
 	}
