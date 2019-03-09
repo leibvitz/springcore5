@@ -2,7 +2,17 @@ package config;
 
 import javax.sql.DataSource;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import rewards.RewardNetwork;
+import rewards.internal.RewardNetworkImpl;
+import rewards.internal.account.AccountRepository;
+import rewards.internal.account.JdbcAccountRepository;
+import rewards.internal.restaurant.JdbcRestaurantRepository;
+import rewards.internal.restaurant.RestaurantRepository;
+import rewards.internal.reward.JdbcRewardRepository;
+import rewards.internal.reward.RewardRepository;
 
 /**
  * TODO-01: This class will be used to define our application beans. Annotate to
@@ -27,9 +37,39 @@ import org.springframework.beans.factory.annotation.Autowired;
  * <p>
  * Each bean method should return an interface not an implementation type.
  */
+
+@Configuration
 public class RewardsConfig {
 
-	// TODO-03: Set this by adding a constructor.
 	private DataSource dataSource;
+	
+	public RewardsConfig(DataSource ds) {
+		dataSource = ds;
+	}
+	
+	@Bean
+	public RewardNetwork rewardNetwork() {
+		return new RewardNetworkImpl(accountRepository(), restaurantRepository(), rewardRepository());
+	}
 
+	@Bean
+	public AccountRepository accountRepository() {
+		JdbcAccountRepository accountRepository = new JdbcAccountRepository();
+		accountRepository.setDataSource(dataSource);
+		return accountRepository;
+	}
+	
+	@Bean
+	public RestaurantRepository restaurantRepository() {
+		JdbcRestaurantRepository restaurantRepository = new JdbcRestaurantRepository();
+		restaurantRepository.setDataSource(dataSource);
+		return restaurantRepository;
+	}
+	
+	@Bean
+	public RewardRepository rewardRepository() {
+		JdbcRewardRepository rewardRepository = new JdbcRewardRepository();
+		rewardRepository.setDataSource(dataSource);
+		return rewardRepository;
+	}
 }
