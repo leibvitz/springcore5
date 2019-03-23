@@ -1,5 +1,10 @@
 package rewards.internal.account;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
+import org.springframework.stereotype.Repository;
+
 /**
  * TODO-04: We have removed the JdbcAccountRepository. This replaces it.
  * <p>
@@ -11,6 +16,23 @@ package rewards.internal.account;
  * creditCardNumber string using a JPA query<br/>
  * </p>
  */
-public class JpaAccountRepository {
 
+@Repository("accountRepository")
+public class JpaAccountRepository implements AccountRepository {
+
+	
+	private EntityManager entityManager;
+	
+	@PersistenceContext
+	public void setEntityManager(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
+
+	@Override
+	public Account findByCreditCard(String creditCardNumber) {
+		String jpql = "SELECT a FROM Account a where a.creditCardNumber = :creditCardNumber";
+		Account account = entityManager.createQuery(jpql, Account.class)
+				.setParameter("creditCardNumber", creditCardNumber).getSingleResult();
+		return account;
+	}
 }

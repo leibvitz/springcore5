@@ -40,12 +40,12 @@ public class SystemTestConfig {
 	//	set the dataSource, jpaVendorAdaptor and other properties appropriately. 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
-		LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
+		//LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
 		
 		// We've set these up for you ...
 		HibernateJpaVendorAdapter adapter = new HibernateJpaVendorAdapter();
 		adapter.setShowSql(true);
-		//adapter.setGenerateDdl(true);
+		adapter.setGenerateDdl(true);
 		adapter.setDatabase(Database.HSQL);
 
 		// And this one ...
@@ -54,12 +54,22 @@ public class SystemTestConfig {
 
 		// Your turn ... configure the emf like the example in the slides ...
 		
-		return emf;
+		LocalContainerEntityManagerFactoryBean emfb = 
+				new LocalContainerEntityManagerFactoryBean();
+			emfb.setDataSource(dataSource());
+			emfb.setPackagesToScan("rewards.internal");
+			emfb.setJpaProperties(props);
+			emfb.setJpaVendorAdapter(adapter);
+			
+			return emfb;
 	}
 
 	//	TODO-08: Define a JpaTransactionManager bean with the name transactionManager. 
 	//	The @Bean method should accept a parameter of type EntityManagerFactory.
 	//	Use this parameter when instantiating the JpaTransactionManager.
 	//	Run the RewardNetworkTests, it should pass. 
-		
+	@Bean
+	public PlatformTransactionManager transactionManager(EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
+	}	
 }
