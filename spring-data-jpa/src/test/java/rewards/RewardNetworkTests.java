@@ -8,7 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import common.money.MonetaryAmount;
@@ -26,7 +26,7 @@ import common.money.MonetaryAmount;
 
 @RunWith(JUnitPlatform.class)
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes={SystemTestConfig.class})
+@SpringBootTest(classes={SystemTestConfig.class})
 public class RewardNetworkTests {
 
 	/**
