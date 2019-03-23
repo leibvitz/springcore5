@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import javax.sql.DataSource;
 
+import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.FixMethodOrder;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.platform.runner.JUnitPlatform;
 import org.junit.runner.RunWith;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * A system test that demonstrates how the effects of a given test can affect
@@ -35,6 +36,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
  * should fail. Add @Transactional on the class and re-run the test. It should
  * pass. Do you know why?
  */
+@Transactional
 public class RewardNetworkSideEffectTests {
 
 	private static final String SAVINGS_SQL = "select SAVINGS from T_ACCOUNT_BENEFICIARY where NAME = ?";
