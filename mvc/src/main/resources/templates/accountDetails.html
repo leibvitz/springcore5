@@ -82,14 +82,13 @@
 						</tr>
 					</thead>
 					<tbody>
-				    <!-- Iterate over beneficiaries -->
-				    {{#beneficiaries}}
-						<tr>
-							<td>{{name}}</td>
-							<td>{{allocationPercentage}}</td>
-							<td>{{savings}}</td>
-						</tr>
-					{{/beneficiaries}}
+					    {{#account.beneficiaries}}  <!-- Iterate over beneficiaries -->
+							<tr>
+								<td>{{name}}</td>
+								<td>{{allocationPercentage}}</td>
+								<td>{{savings}}</td>
+							</tr>
+						{{/account.beneficiaries}}
 					</tbody>
 				</table>
 			</div>

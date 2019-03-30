@@ -5,7 +5,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Import;
 
-
 import config.RootConfig;
 
 // TODO-01: Take a quick look at pom.xml to see the dependencies we are using.
@@ -22,8 +21,8 @@ import config.RootConfig;
 @EntityScan("rewards")
 public class AccountsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AccountsApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(AccountsApplication.class, args);
+    }
+ 
 }

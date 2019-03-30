@@ -16,8 +16,7 @@ import rewards.internal.account.Account;
 import accounts.internal.StubAccountManager;
 
 /**
- * A JUnit test case testing the AccountController. The AccountController has
- * two handler methods, therefore, two tests.
+ * A JUnit test case testing the AccountController. 
  */
 @RunWith(JUnitPlatform.class)
 public class AccountControllerTests {
@@ -29,31 +28,25 @@ public class AccountControllerTests {
 		controller = new AccountController(new StubAccountManager());
 	}
 
-	// TODO-06: The AccountController can be unit tested to ensure it returns the right model
-	// data and view name.
-	// Run this test now, it should pass.
-	@SuppressWarnings("unchecked")
 	@Test
+	public void testHandleDetailsRequest() {
+		ExtendedModelMap model = new ExtendedModelMap();
+		String viewName = controller.accountDetails(0, model);
+		Account account = (Account) model.get("account");
+		assertEquals("accountDetails", viewName);
+		assertNotNull(account);
+		assertEquals(Long.valueOf(0), account.getEntityId());
+	}
+
+	@Test
+	@SuppressWarnings("unchecked")
 	public void testHandleListRequest() {
 		ExtendedModelMap model = new ExtendedModelMap();
 		String viewName = controller.accountList(model);
-
 		List<Account> accounts = (List<Account>) model.get("accounts");
+		assertEquals("accountList", viewName);
 		assertNotNull(accounts);
 		assertEquals(1, accounts.size());
 		assertEquals(Long.valueOf(0), accounts.get(0).getEntityId());
-
-		// TODO-08: Change this to expect a logical view name
-		// Re-run the test and make sure it passes
-		//
-		assertEquals("classpath:/templates/accountList.html", viewName);
 	}
-
-	// TODO-10: Add a test for the accountDetails() method of AccountController.
-	// * Use the test method above for hints. Supply 0 for the ID value to
-	// - retrieve.
-	// * Create assertions for model contents (check the entity id and account number)
-	// * Create an assertion for the view name.
-	// * When complete run the test. It should pass.
-
 }
